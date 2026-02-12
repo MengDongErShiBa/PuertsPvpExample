@@ -72,7 +72,7 @@ declare module "ue" {
     }
 
 // __TYPE_DECL_END
-// __TYPE_DECL_START: bc475cc47b3f094e3b8508c3850a88941a2801c8
+// __TYPE_DECL_START: 23c7e950e6efc2e12079312402e234a1cf3200f2
     namespace Game.ThirdPerson.Blueprints.BP_ThirdPersonGameMode {
         class BP_ThirdPersonGameMode_C extends UE.PuertsPvpExampleGameMode {
             constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
@@ -17933,6 +17933,65 @@ declare module "ue" {
             static Load(InName: string): OptimusNode_ConstantValue_NameProperty;
         
             __tid_OptimusNode_ConstantValue_NameProperty_0__: boolean;
+        }
+        
+    }
+
+// __TYPE_DECL_END
+// __TYPE_DECL_START: 3b91c08382d5e245e5676d16145f097a59163c03
+    namespace Game.Blueprints.TypeScript.TS_Player {
+        class TS_Player_C extends UE.Character {
+            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
+            static StaticClass(): Class;
+            static Find(OrigInName: string, Outer?: Object): TS_Player_C;
+            static Load(InName: string): TS_Player_C;
+        
+            __tid_TS_Player_C_0__: boolean;
+        }
+        
+    }
+
+// __TYPE_DECL_END
+// __TYPE_DECL_START: 37d04861fbfa8e169f9549f97b7185a3bcf01e15
+    namespace Game.Blueprints.TypeScript.TsActor {
+        class TsActor_C extends UE.Actor {
+            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
+            DefaultSceneRoot: UE.SceneComponent;
+            static StaticClass(): Class;
+            static Find(OrigInName: string, Outer?: Object): TsActor_C;
+            static Load(InName: string): TsActor_C;
+        
+            __tid_TsActor_C_0__: boolean;
+        }
+        
+    }
+
+// __TYPE_DECL_END
+// __TYPE_DECL_START: b82334cb110619cc3dc0a99724b48715ec039d14
+    namespace Game.TS_Player {
+        class TS_Player_C extends UE.Character {
+            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
+            Test() : void;
+            static StaticClass(): Class;
+            static Find(OrigInName: string, Outer?: Object): TS_Player_C;
+            static Load(InName: string): TS_Player_C;
+        
+            __tid_TS_Player_C_0__: boolean;
+        }
+        
+    }
+
+// __TYPE_DECL_END
+// __TYPE_DECL_START: e6b07355e6444278449d9484f08b5cfe7c1d4934
+    namespace Game.TsActor {
+        class TsActor_C extends UE.Actor {
+            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
+            DefaultSceneRoot: UE.SceneComponent;
+            static StaticClass(): Class;
+            static Find(OrigInName: string, Outer?: Object): TsActor_C;
+            static Load(InName: string): TsActor_C;
+        
+            __tid_TsActor_C_0__: boolean;
         }
         
     }

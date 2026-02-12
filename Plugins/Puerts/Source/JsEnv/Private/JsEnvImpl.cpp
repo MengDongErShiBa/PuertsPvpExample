@@ -1557,6 +1557,35 @@ void FJsEnvImpl::TryBindJs(const class UObjectBase* InObject)
     {
         UClass* Class = InObject->GetClass();
 
+        // 匹配TS_Player 或 TsActor
+        if (Class->GetName().Contains("TS_Player")) {
+            const FString ClassName = Class->GetName();
+            const FString ClassTypeName = Class->GetClass() != nullptr ? Class->GetClass()->GetName() : TEXT("<null>");
+            const bool IsTypeScriptGenerated = Cast<UTypeScriptGeneratedClass>(Class) != nullptr;
+            const bool IsBlueprintGenerated = Cast<UBlueprintGeneratedClass>(Class) != nullptr;
+            const bool IsConstructorRedirected = Class->ClassConstructor == &UTypeScriptGeneratedClass::StaticConstructor;
+
+            FString SuperClassChain;
+            UClass* SuperClass = Class->GetSuperClass();
+            while (SuperClass)
+            {
+                SuperClassChain += SuperClass->GetName();
+                SuperClass = SuperClass->GetSuperClass();
+                if (SuperClass)
+                {
+                    SuperClassChain += TEXT(" -> ");
+                }
+            }
+
+            UE_LOG(LogTemp, Log, TEXT("TryBindJs TS_Player: Class=%s ClassType=%s IsTsClass=%s IsBpClass=%s ConstructorRedirected=%s SuperChain=%s"),
+                *ClassName,
+                *ClassTypeName,
+                IsTypeScriptGenerated ? TEXT("true") : TEXT("false"),
+                IsBlueprintGenerated ? TEXT("true") : TEXT("false"),
+                IsConstructorRedirected ? TEXT("true") : TEXT("false"),
+                *SuperClassChain);
+        }
+
         auto TypeScriptGeneratedClass = Cast<UTypeScriptGeneratedClass>(Class);
 
         if (UNLIKELY(TypeScriptGeneratedClass))
@@ -1579,6 +1608,8 @@ void FJsEnvImpl::TryBindJs(const class UObjectBase* InObject)
                         Function->SetNativeFunc(&UTypeScriptGeneratedClass::execLazyLoadCallJS);
                         TypeScriptGeneratedClass->AddNativeFunction(
                             *Function->GetName(), &UTypeScriptGeneratedClass::execLazyLoadCallJS);
+                        // 输入中文日志
+                        UE_LOG(LogTemp, Log, TEXT("TryBindJs: %s"), *Function->GetName());
                     }
                 }
                 else
