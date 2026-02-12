@@ -265,7 +265,7 @@ function readAndParseConfigFile(configFilePath: string) : ts.ParsedCommandLine {
 function watch(configFilePath:string) {
     let {fileNames, options} = readAndParseConfigFile(configFilePath);
 
-    console.log("start watch..", JSON.stringify({fileNames:fileNames, options: options}));
+    console.log("start watch..11", JSON.stringify({fileNames:fileNames, options: options}));
     const versionsFilePath = tsi.getDirectoryPath(configFilePath) + "/ts_file_versions_info.json";
     const fileVersions: ts.MapLike<{ version: string, processed: boolean, isBP?: boolean }> = {};
   

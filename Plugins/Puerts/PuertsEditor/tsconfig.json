@@ -9,4 +9,8 @@
     ],
     "outDir": "../Content/Javascript/PuertsEditor"
   },
+  "include": [
+    "**/*.ts",
+    "../../../TypeScript/**/*.ts"
+  ]
 }
