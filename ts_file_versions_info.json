@@ -5,7 +5,7 @@
         "isBP": false
     },
     "H:/LearingSpace/PuertsPvpExample/TypeScript/TS_Player.ts": {
-        "version": "d75c2f3eb5be9ad43f47c1b2261e8cc3",
+        "version": "2059bc5b67b867fb3cf9ba0d54507051",
         "processed": true,
         "isBP": true
     },
@@ -15,7 +15,12 @@
         "isBP": false
     },
     "H:/LearingSpace/PuertsPvpExample/TypeScript/TsActor.ts": {
-        "version": "f800e55267968f7c6fddc4a1e2bdbc83",
+        "version": "ff8694c35ba41e74e87c7f76883a0078",
+        "processed": true,
+        "isBP": true
+    },
+    "H:/LearingSpace/PuertsPvpExample/TypeScript/Lobby/TS_LobbyGameMode.ts": {
+        "version": "8b6279db8c690c9f24186bdbdce939bd",
         "processed": true,
         "isBP": true
     },
@@ -278,5 +283,10 @@
     "H:/LearingSpace/PuertsPvpExample/Content/JavaScript/PuertsEditor/node_modules/typescript/lib/lib.dom.iterable.d.ts": {
         "version": "977f6792324dbfc2fcc8eadc6f1b0452",
         "processed": false
+    },
+    "H:/LearingSpace/PuertsPvpExample/TypeScript/Combat/TS_PlayerCharacter.ts": {
+        "version": "c68bc5de64265cc378ab2db053e96c61",
+        "processed": true,
+        "isBP": true
     }
 }

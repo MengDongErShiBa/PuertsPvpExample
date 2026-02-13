@@ -1,6 +1,8 @@
 import * as UE from 'ue'
 
 class TS_Player extends UE.Character {
+    
+    StaticMesh: UE.StaticMesh;
 
     ReceiveBeginPlay(): void
     {

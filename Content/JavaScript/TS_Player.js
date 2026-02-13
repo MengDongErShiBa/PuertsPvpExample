@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const UE = require("ue");
 class TS_Player extends UE.Character {
+    StaticMesh;
     ReceiveBeginPlay() {
         super.ReceiveBeginPlay();
         console.log("TS_Player ReceiveBeginPlay");
