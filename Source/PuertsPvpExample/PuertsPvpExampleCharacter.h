@@ -23,6 +23,9 @@ class APuertsPvpExampleCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+public:
+	APuertsPvpExampleCharacter();
+
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraBoom;
@@ -48,11 +51,6 @@ protected:
 	/** Mouse Look Input Action */
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* MouseLookAction;
-
-public:
-
-	/** Constructor */
-	APuertsPvpExampleCharacter();	
 
 protected:
 
@@ -93,4 +91,3 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 };
-

@@ -354,9 +354,7 @@ declare module "ue" {
             UberGraphFrame: UE.PointerToUberGraphFrame;
             ExecuteUbergraph_BP_CVD_SkySphere(EntryPoint: number) : void;
             Refresh() : void;
-            Refresh_EditorOnly() : void;
             SetDirectionalLightSource(NewLightSource: $Nullable<UE.DirectionalLight>) : void;
-            SetDirectionalLightSource_EditorOnly(NewLightSource: $Nullable<UE.DirectionalLight>) : void;
             static StaticClass(): Class;
             static Find(OrigInName: string, Outer?: Object): BP_CVD_SkySphere_C;
             static Load(InName: string): BP_CVD_SkySphere_C;
@@ -8134,7 +8132,7 @@ declare module "ue" {
     }
 
 // __TYPE_DECL_END
-// __TYPE_DECL_START: 8d62f2633ac8945ccd9370d0a4c01bf3ab18154f
+// __TYPE_DECL_START: e946199e83e9f7d4c77a73027a3d483d1c225c08
     namespace Game.Variant_Combat.Blueprints.BP_CombatCharacter {
         class BP_CombatCharacter_C extends UE.CombatCharacter {
             constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
@@ -17883,94 +17881,19 @@ declare module "ue" {
     }
 
 // __TYPE_DECL_END
-// __TYPE_DECL_START: ASSOCIATION
-    namespace Engine.ArtTools.RenderToTexture.Blueprints.PhysMesh {
-        class PhysMesh {
-            constructor();
-            constructor(SMesh: UE.StaticMesh, Transform: UE.Transform);
-            SMesh: UE.StaticMesh;
-            Transform: UE.Transform;
-            /**
-             * @deprecated use StaticStruct instead.
-             */
-            static StaticClass(): ScriptStruct;
-            static StaticStruct(): ScriptStruct;
-            __tid_PhysMesh_0__: boolean;
-        }
-        
-    }
-
-// __TYPE_DECL_END
-// __TYPE_DECL_START: ASSOCIATION
-    namespace Engine.ArtTools.RenderToTexture.Blueprints.TilingMesh {
-        class TilingMesh {
-            constructor();
-            constructor(StaticMesh: UE.StaticMesh, Transform: UE.Transform, Material: UE.MaterialInstanceConstant, Visible: boolean, DisplacementTexture: UE.Texture);
-            StaticMesh: UE.StaticMesh;
-            Transform: UE.Transform;
-            Material: UE.MaterialInstanceConstant;
-            Visible: boolean;
-            DisplacementTexture: UE.Texture;
-            /**
-             * @deprecated use StaticStruct instead.
-             */
-            static StaticClass(): ScriptStruct;
-            static StaticStruct(): ScriptStruct;
-            __tid_TilingMesh_0__: boolean;
-        }
-        
-    }
-
-// __TYPE_DECL_END
-// __TYPE_DECL_START: ASSOCIATION
-    namespace HairStrands.Deformers.DG_GuidesSkinning {
-        class OptimusNode_ConstantValue_NameProperty extends UE.OptimusNode_ConstantValue {
-            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
-            Value: string;
-            Out: string;
-            static StaticClass(): Class;
-            static Find(OrigInName: string, Outer?: Object): OptimusNode_ConstantValue_NameProperty;
-            static Load(InName: string): OptimusNode_ConstantValue_NameProperty;
-        
-            __tid_OptimusNode_ConstantValue_NameProperty_0__: boolean;
-        }
-        
-    }
-
-// __TYPE_DECL_END
-// __TYPE_DECL_START: 3b91c08382d5e245e5676d16145f097a59163c03
+// __TYPE_DECL_START: e42ca987ecfe25bab98b6292abb74dfd9494f73e
     namespace Game.Blueprints.TypeScript.TS_Player {
         class TS_Player_C extends UE.Character {
             constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
-            static StaticClass(): Class;
-            static Find(OrigInName: string, Outer?: Object): TS_Player_C;
-            static Load(InName: string): TS_Player_C;
-        
-            __tid_TS_Player_C_0__: boolean;
-        }
-        
-    }
-
-// __TYPE_DECL_END
-// __TYPE_DECL_START: 37d04861fbfa8e169f9549f97b7185a3bcf01e15
-    namespace Game.Blueprints.TypeScript.TsActor {
-        class TsActor_C extends UE.Actor {
-            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
-            DefaultSceneRoot: UE.SceneComponent;
-            static StaticClass(): Class;
-            static Find(OrigInName: string, Outer?: Object): TsActor_C;
-            static Load(InName: string): TsActor_C;
-        
-            __tid_TsActor_C_0__: boolean;
-        }
-        
-    }
-
-// __TYPE_DECL_END
-// __TYPE_DECL_START: b82334cb110619cc3dc0a99724b48715ec039d14
-    namespace Game.TS_Player {
-        class TS_Player_C extends UE.Character {
-            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
+            UberGraphFrame: UE.PointerToUberGraphFrame;
+            Camera: UE.CameraComponent;
+            SpringArm: UE.SpringArmComponent;
+            StaticMesh: UE.StaticMesh;
+            ExecuteUbergraph_TS_Player(EntryPoint: number) : void;
+            /*
+             *Event when play begins for this actor.
+             */
+            ReceiveBeginPlay() : void;
             Test() : void;
             static StaticClass(): Class;
             static Find(OrigInName: string, Outer?: Object): TS_Player_C;
@@ -17982,16 +17905,70 @@ declare module "ue" {
     }
 
 // __TYPE_DECL_END
-// __TYPE_DECL_START: e6b07355e6444278449d9484f08b5cfe7c1d4934
-    namespace Game.TsActor {
+// __TYPE_DECL_START: fb5fea55efa3f24e12c99d76caed85279bb554da
+    namespace Game.Blueprints.TypeScript.TsActor {
         class TsActor_C extends UE.Actor {
             constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
             DefaultSceneRoot: UE.SceneComponent;
+            StaticMesh: UE.StaticMesh;
+            TestMesh: UE.StaticMesh;
+            Test() : void;
             static StaticClass(): Class;
             static Find(OrigInName: string, Outer?: Object): TsActor_C;
             static Load(InName: string): TsActor_C;
         
             __tid_TsActor_C_0__: boolean;
+        }
+        
+    }
+
+// __TYPE_DECL_END
+// __TYPE_DECL_START: 8e5b81e9be7c74a3a806ac9b080cdad1416dd00e
+    namespace Game.Blueprints.TypeScript.Lobby.TS_LobbyGameMode {
+        class TS_LobbyGameMode_C extends UE.GameMode {
+            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
+            DefaultSceneRoot: UE.SceneComponent;
+            static StaticClass(): Class;
+            static Find(OrigInName: string, Outer?: Object): TS_LobbyGameMode_C;
+            static Load(InName: string): TS_LobbyGameMode_C;
+        
+            __tid_TS_LobbyGameMode_C_0__: boolean;
+        }
+        
+    }
+
+// __TYPE_DECL_END
+// __TYPE_DECL_START: 779a3db0568791c81c69d97a5d6271d07a7b7a93
+    namespace Game.Blueprints.TypeScript.Combat.TS_PlayerCharacter {
+        class TS_PlayerCharacter_C extends UE.PvpCharacter {
+            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
+            UberGraphFrame: UE.PointerToUberGraphFrame;
+            currentHealth: number;
+            IsAttacking: boolean;
+            attackInterval: number;
+            CheckEnemyInRange() : void;
+            ExecuteUbergraph_TS_PlayerCharacter(EntryPoint: number) : void;
+            OnRep_currentHealth(OldVHealth: number) : void;
+            TsProcessComboAttack() : void;
+            static StaticClass(): Class;
+            static Find(OrigInName: string, Outer?: Object): TS_PlayerCharacter_C;
+            static Load(InName: string): TS_PlayerCharacter_C;
+        
+            __tid_TS_PlayerCharacter_C_0__: boolean;
+        }
+        
+    }
+
+// __TYPE_DECL_END
+// __TYPE_DECL_START: 49e29bb7427a726bcd5814602526f46ffb512f2b
+    namespace Game.Blueprints.TypeScript.Combat.TS_PlayerController {
+        class TS_PlayerController_C extends UE.PuertsPvpExamplePlayerController {
+            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
+            static StaticClass(): Class;
+            static Find(OrigInName: string, Outer?: Object): TS_PlayerController_C;
+            static Load(InName: string): TS_PlayerController_C;
+        
+            __tid_TS_PlayerController_C_0__: boolean;
         }
         
     }

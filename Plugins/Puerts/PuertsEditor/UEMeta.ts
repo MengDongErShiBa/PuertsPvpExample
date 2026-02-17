@@ -1867,9 +1867,9 @@ export function compileClassMetaData(type: ts.Type): UE.PEClassMetaData
 {
     //  fetch the decorator
     let decorators = null;
-    if (type.getSymbol().valueDeclaration != null)
+    if (type.getSymbol().getDeclarations() != null)
     {
-        decorators = type.getSymbol().valueDeclaration.decorators;
+        decorators = type.getSymbol().getDeclarations();
     }
     if (decorators == null)
     {   //  no decorators

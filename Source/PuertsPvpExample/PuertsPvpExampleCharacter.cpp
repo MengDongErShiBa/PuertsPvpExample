@@ -22,6 +22,11 @@ APuertsPvpExampleCharacter::APuertsPvpExampleCharacter()
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
+	// 开启同步
+	bReplicates = true;
+	SetNetUpdateFrequency(100.f);
+	SetReplicatingMovement(true);
+
 	// Configure character movement
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
