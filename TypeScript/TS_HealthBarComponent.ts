@@ -24,7 +24,7 @@ class TS_HealthBarComponent extends WidgetComponent
     
     OnHealthChanged(CurrentHealth: number): void 
     {
-        console.log(`[TS_HealthBarComponent::OnHealthChanged] ${this.OwnerCharacter}:${CurrentHealth}`);
+        // console.log(`[TS_HealthBarComponent::OnHealthChanged] ${this.OwnerCharacter}:${CurrentHealth}`);
         
         if (this.OwnerCharacter)
         {
@@ -37,7 +37,7 @@ class TS_HealthBarComponent extends WidgetComponent
             {
                 const HealthBarWidget = this.HealthBarWidget as any;
                 HealthBarWidget.HealthBar.SetPercent(Percent);
-                console.log(`[TS_HealthBarComponent::OnHealthChanged] ${this.OwnerCharacter}:${Percent}`);
+                console.log(`[TS_HealthBarComponent::OnHealthChanged] 设置进度条:${Percent}`);
             }
             else
             {

@@ -1,13 +1,14 @@
+import * as UE from "ue";
 import {
-    ENetRole, Game,
-    HitResult, NewObject,
-    PvpBlueprintFunctionLibrary, rpc,
+    EAttachmentRule,
+    ENetRole,
+    HitResult,
+    PvpBlueprintFunctionLibrary,
     SkeletalMeshComponent,
     TArray,
     ufunction,
     uproperty
 } from "ue";
-import * as UE from "ue";
 import TS_HealthBarComponent from "./TS_HealthBarComponent";
 
 // 血量变更委托
@@ -38,6 +39,19 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
         
         // 查找组件
         this.HealthBar = this.GetComponentByClass(TS_HealthBarComponent.StaticClass()) as TS_HealthBarComponent;
+        if (this.HealthBar)
+        {
+            // 将组件附加到骨骼的head
+            // 查询骨骼组件
+            const SkeletalMesh = this.GetComponentByClass(SkeletalMeshComponent.StaticClass()) as SkeletalMeshComponent;
+            if (!SkeletalMesh)
+            {
+                return;
+            }
+            
+            this.HealthBar.K2_AttachToComponent(SkeletalMesh, `UISocket`, EAttachmentRule.SnapToTarget, EAttachmentRule.SnapToTarget, 0, false);
+            // console.log(`[TS_PlayerCharacter::ReceiveBeginPlay] 附加HealthBar组件`);
+        }
     }
 
     
@@ -47,7 +61,7 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
         if (this.HealthBar)
         {
             this.HealthBar.OnHealthChanged(this.CurrentHealth);
-            console.log(`[TS_PlayerCharacter::OnRep_CurrentHealth]: 调用HealthBar组件`);
+            // console.log(`[TS_PlayerCharacter::OnRep_CurrentHealth]: 调用HealthBar组件`);
         }
         else
         {
@@ -127,7 +141,7 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
     @ufunction.ufunction(ufunction.NetMulticast, ufunction.Reliable)
     MulticastPlayMontage():void
     {
-        console.log(`[TS_PlayerCharacter::MulticastPlayMontage] 客户端播放动画，LocalRole: ${ENetRole[this.GetLocalRole()]}`);
+        // console.log(`[TS_PlayerCharacter::MulticastPlayMontage] 客户端播放动画，LocalRole: ${ENetRole[this.GetLocalRole()]}`);
 
         // 获取动画实例
         const SkeletalMesh = this.GetComponentByClass(SkeletalMeshComponent.StaticClass()) as SkeletalMeshComponent;
@@ -153,11 +167,11 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
         // 播放 Montage
         const PlayRate = 1.0;
         const bPlaying = AnimationInstance.Montage_Play(this.ComboAttackMontage, PlayRate);
-        console.log(`[TS_PlayerCharacter::MulticastPlayMontage] Montage_Play 结果: ${bPlaying > 0}`);
+        // console.log(`[TS_PlayerCharacter::MulticastPlayMontage] Montage_Play 结果: ${bPlaying > 0}`);
         
         if (bPlaying) 
         {
-            const bSuccess = AnimationInstance.Montage_JumpToSection(`Melee01`, this.ComboAttackMontage);
+            AnimationInstance.Montage_JumpToSection(`Melee01`, this.ComboAttackMontage);
         }
     }
 
@@ -167,12 +181,13 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
     @ufunction.ufunction()
     PlayMontage():void
     {
-        if (!this.HasAuthority()) {
+        if (!this.HasAuthority()) 
+        {
             console.log(`[TS_PlayerCharacter::PlayMontage] 没有权限`);
             return;
         }
 
-        console.log(`[TS_PlayerCharacter::PlayMontage] 服务器播放蒙太奇`);
+        // console.log(`[TS_PlayerCharacter::PlayMontage] 服务器播放蒙太奇`);
         // 同步蒙太奇
         this.MulticastPlayMontage();
     }
@@ -192,7 +207,7 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
             return;
         }
         
-        console.log(`[TS_PlayerCharacter::ApplyDamage] 应用伤害: ${Damage}`);
+        // console.log(`[TS_PlayerCharacter::ApplyDamage] 应用伤害: ${Damage}`);
         this.CurrentHealth = Math.max(1, this.CurrentHealth - Damage);
         console.log(`[TS_PlayerCharacter::ApplyDamage] ${this.NetDriverName}当前生命: ${this.CurrentHealth}`);
     }

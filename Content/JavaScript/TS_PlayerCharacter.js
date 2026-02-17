@@ -6,8 +6,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ue_1 = require("ue");
 const UE = require("ue");
+const ue_1 = require("ue");
 const TS_HealthBarComponent_1 = require("./TS_HealthBarComponent");
 // 血量变更委托
 class TS_PlayerCharacter extends UE.PvpCharacter {
@@ -25,12 +25,22 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
         super.ReceiveBeginPlay();
         // 查找组件
         this.HealthBar = this.GetComponentByClass(TS_HealthBarComponent_1.default.StaticClass());
+        if (this.HealthBar) {
+            // 将组件附加到骨骼的head
+            // 查询骨骼组件
+            const SkeletalMesh = this.GetComponentByClass(ue_1.SkeletalMeshComponent.StaticClass());
+            if (!SkeletalMesh) {
+                return;
+            }
+            this.HealthBar.K2_AttachToComponent(SkeletalMesh, `UISocket`, ue_1.EAttachmentRule.SnapToTarget, ue_1.EAttachmentRule.SnapToTarget, 0, false);
+            // console.log(`[TS_PlayerCharacter::ReceiveBeginPlay] 附加HealthBar组件`);
+        }
     }
     OnRep_CurrentHealth(OldVHealth) {
         console.log(`[TS_PlayerCharacter::OnRep_CurrentHealth]: ${this.CurrentHealth} (old: ${OldVHealth})`);
         if (this.HealthBar) {
             this.HealthBar.OnHealthChanged(this.CurrentHealth);
-            console.log(`[TS_PlayerCharacter::OnRep_CurrentHealth]: 调用HealthBar组件`);
+            // console.log(`[TS_PlayerCharacter::OnRep_CurrentHealth]: 调用HealthBar组件`);
         }
         else {
             console.log(`[TS_PlayerCharacter::OnRep_CurrentHealth]: 没有找到HealthBar组件`);
@@ -86,7 +96,7 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
      * 播放Montage - NetMulticast版本，所有客户端执行
      */
     MulticastPlayMontage() {
-        console.log(`[TS_PlayerCharacter::MulticastPlayMontage] 客户端播放动画，LocalRole: ${ue_1.ENetRole[this.GetLocalRole()]}`);
+        // console.log(`[TS_PlayerCharacter::MulticastPlayMontage] 客户端播放动画，LocalRole: ${ENetRole[this.GetLocalRole()]}`);
         // 获取动画实例
         const SkeletalMesh = this.GetComponentByClass(ue_1.SkeletalMeshComponent.StaticClass());
         if (!SkeletalMesh) {
@@ -105,9 +115,9 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
         // 播放 Montage
         const PlayRate = 1.0;
         const bPlaying = AnimationInstance.Montage_Play(this.ComboAttackMontage, PlayRate);
-        console.log(`[TS_PlayerCharacter::MulticastPlayMontage] Montage_Play 结果: ${bPlaying > 0}`);
+        // console.log(`[TS_PlayerCharacter::MulticastPlayMontage] Montage_Play 结果: ${bPlaying > 0}`);
         if (bPlaying) {
-            const bSuccess = AnimationInstance.Montage_JumpToSection(`Melee01`, this.ComboAttackMontage);
+            AnimationInstance.Montage_JumpToSection(`Melee01`, this.ComboAttackMontage);
         }
     }
     /**
@@ -118,7 +128,7 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
             console.log(`[TS_PlayerCharacter::PlayMontage] 没有权限`);
             return;
         }
-        console.log(`[TS_PlayerCharacter::PlayMontage] 服务器播放蒙太奇`);
+        // console.log(`[TS_PlayerCharacter::PlayMontage] 服务器播放蒙太奇`);
         // 同步蒙太奇
         this.MulticastPlayMontage();
     }
@@ -133,7 +143,7 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
             console.log(`[TS_PlayerCharacter::ApplyDamage] 没有权限`);
             return;
         }
-        console.log(`[TS_PlayerCharacter::ApplyDamage] 应用伤害: ${Damage}`);
+        // console.log(`[TS_PlayerCharacter::ApplyDamage] 应用伤害: ${Damage}`);
         this.CurrentHealth = Math.max(1, this.CurrentHealth - Damage);
         console.log(`[TS_PlayerCharacter::ApplyDamage] ${this.NetDriverName}当前生命: ${this.CurrentHealth}`);
     }

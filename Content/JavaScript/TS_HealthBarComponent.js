@@ -15,7 +15,7 @@ class TS_HealthBarComponent extends ue_1.WidgetComponent {
         this.OnHealthChanged(this.OwnerCharacter.GetCurrentHealth());
     }
     OnHealthChanged(CurrentHealth) {
-        console.log(`[TS_HealthBarComponent::OnHealthChanged] ${this.OwnerCharacter}:${CurrentHealth}`);
+        // console.log(`[TS_HealthBarComponent::OnHealthChanged] ${this.OwnerCharacter}:${CurrentHealth}`);
         if (this.OwnerCharacter) {
             // 获取最大血量
             const MaxHealth = this.OwnerCharacter.GetMaxHealth();
@@ -24,7 +24,7 @@ class TS_HealthBarComponent extends ue_1.WidgetComponent {
             if (this.HealthBarWidget) {
                 const HealthBarWidget = this.HealthBarWidget;
                 HealthBarWidget.HealthBar.SetPercent(Percent);
-                console.log(`[TS_HealthBarComponent::OnHealthChanged] ${this.OwnerCharacter}:${Percent}`);
+                console.log(`[TS_HealthBarComponent::OnHealthChanged] 设置进度条:${Percent}`);
             }
             else {
                 console.log(`[TS_HealthBarComponent::OnHealthChanged] 没有找到HealthBarWidget`);
