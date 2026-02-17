@@ -17896,18 +17896,22 @@ declare module "ue" {
     }
 
 // __TYPE_DECL_END
-// __TYPE_DECL_START: fe068a861f49e7c54bbba50bd52e93ac411fea9a
+// __TYPE_DECL_START: 6a1e8f3cc3814a8bdee8cdd77bb7a1752462e9d1
     namespace Game.Blueprints.TypeScript.TS_PlayerCharacter {
         class TS_PlayerCharacter_C extends UE.PvpCharacter {
             constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
             UberGraphFrame: UE.PointerToUberGraphFrame;
+            HealthBar: UE.Game.Blueprints.TypeScript.TS_HealthBarComponent.TS_HealthBarComponent_C;
             CurrentHealth: number;
+            MaxHealth: number;
             IsAttacking: boolean;
             AttackInterval: number;
             AttackRange: number;
-            ApplyDamage(Damage: number, DamageEvent: UE.DamageEvent, DamageCauser: $Nullable<UE.Actor>) : void;
+            ApplyDamage(Damage1: number) : void;
             CheckEnemyInRange() : void;
             ExecuteUbergraph_TS_PlayerCharacter(EntryPoint: number) : void;
+            GetCurrentHealth() : number;
+            GetMaxHealth() : number;
             MulticastPlayMontage() : void;
             OnRep_CurrentHealth(OldVHealth: number) : void;
             PlayMontage() : void;
@@ -17940,12 +17944,20 @@ declare module "ue" {
     }
 
 // __TYPE_DECL_END
-// __TYPE_DECL_START: 1f53c8495543514d73dbe972354527b7c64b8898
+// __TYPE_DECL_START: 9362ccfd0f4482f90040fc19bfe46c548715a1e4
     namespace Game.Blueprints.TypeScript.TS_HealthBarComponent {
         class TS_HealthBarComponent_C extends UE.WidgetComponent {
             constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
+            UberGraphFrame: UE.PointerToUberGraphFrame;
             OwnerCharacter: UE.Game.Blueprints.TypeScript.TS_PlayerCharacter.TS_PlayerCharacter_C;
+            HealthBarWidget: UE.UserWidget;
+            ExecuteUbergraph_TS_HealthBarComponent(EntryPoint: number) : void;
             OnHealthChanged(CurrentHealth: number) : void;
+            /*
+             *Blueprint implementable event for when the component is beginning play, called before its owning actor's BeginPlay
+             *or when the component is dynamically created if the Actor has already BegunPlay.
+             */
+            ReceiveBeginPlay() : void;
             static StaticClass(): Class;
             static Find(OrigInName: string, Outer?: Object): TS_HealthBarComponent_C;
             static Load(InName: string): TS_HealthBarComponent_C;
@@ -17956,14 +17968,14 @@ declare module "ue" {
     }
 
 // __TYPE_DECL_END
-// __TYPE_DECL_START: 6c863a575ee6d615651a74ee58f9fe2428e148f6
+// __TYPE_DECL_START: 413388deaceb843c68462e0828edff61a3fc869d
     namespace Game.Blueprints.TypeScript.TS_CombatComponent {
         class TS_CombatComponent_C extends UE.ActorComponent {
             constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
             UberGraphFrame: UE.PointerToUberGraphFrame;
             OwnerCharacter: UE.Game.Blueprints.TypeScript.TS_PlayerCharacter.TS_PlayerCharacter_C;
+            ApplyDamage(Damage: number) : void;
             ExecuteUbergraph_TS_CombatComponent(EntryPoint: number) : void;
-            OnTakeAnyDamage(Damage: number, DamageEvent: UE.DamageEvent, DamageCauser: $Nullable<UE.Actor>) : void;
             /*
              *Blueprint implementable event for when the component is beginning play, called before its owning actor's BeginPlay
              *or when the component is dynamically created if the Actor has already BegunPlay.
@@ -17979,11 +17991,26 @@ declare module "ue" {
     }
 
 // __TYPE_DECL_END
-// __TYPE_DECL_START: e87349f037a0f420b7f7c3e946199d0c2861d836
-    namespace Game.Blueprints.TypeScript.TS_HealthBar {
-        class TS_HealthBar_C extends UE.UserWidget {
+// __TYPE_DECL_START: a4b9fc1c22794a9b5113157424fb0a07509bc53d
+    namespace Game.Blueprints.TSWidget.WBP_HealthBar {
+        class WBP_HealthBar_C extends UE.TSUserWidget {
             constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
-            SetHealth(Health: number, MaxHealth: number) : void;
+            HealthBar: UE.ProgressBar;
+            static StaticClass(): Class;
+            static Find(OrigInName: string, Outer?: Object): WBP_HealthBar_C;
+            static Load(InName: string): WBP_HealthBar_C;
+        
+            __tid_WBP_HealthBar_C_0__: boolean;
+        }
+        
+    }
+
+// __TYPE_DECL_END
+// __TYPE_DECL_START: 42ef0bdaf5c7713db1148c231306f34cdb5dce10
+    namespace Game.Blueprints.TypeScript.TS_HealthBar {
+        class TS_HealthBar_C extends UE.TSWidgetPrivate {
+            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
+            Widget: UE.Game.Blueprints.TSWidget.WBP_HealthBar.WBP_HealthBar_C;
             static StaticClass(): Class;
             static Find(OrigInName: string, Outer?: Object): TS_HealthBar_C;
             static Load(InName: string): TS_HealthBar_C;

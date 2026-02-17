@@ -1,10 +1,7 @@
 import {
-    $MulticastDelegate,
-    Actor,
-    DamageEvent, DamageType,
     ENetRole, Game,
     HitResult, NewObject,
-    PvpBlueprintFunctionLibrary,
+    PvpBlueprintFunctionLibrary, rpc,
     SkeletalMeshComponent,
     TArray,
     ufunction,
@@ -15,9 +12,12 @@ import TS_HealthBarComponent from "./TS_HealthBarComponent";
 
 // 血量变更委托
 class TS_PlayerCharacter extends UE.PvpCharacter {
-    // 可同步属性，并且使用回调函数（注意：ReplicatedUsing 名称必须与回调函数名严格匹配）
-    @uproperty.uproperty(uproperty.Replicated, uproperty.ReplicatedUsing = "OnRep_currentHealth")
-    private CurrentHealth: number;
+    
+    // TODO: Ts的注解不太好用
+    // https://github.com/Tencent/puerts/discussions/1855  查询了此QA，但没有找到解决方案
+    // 暂时使用RPC处理
+    @uproperty.uproperty(uproperty.Replicated)
+    CurrentHealth: number;
     
     @uproperty.uproperty(uproperty.Replicated)
     private MaxHealth: number;
@@ -39,14 +39,19 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
         // 查找组件
         this.HealthBar = this.GetComponentByClass(TS_HealthBarComponent.StaticClass()) as TS_HealthBarComponent;
     }
+
     
-    @ufunction.ufunction()
-    private OnRep_currentHealth(OldVHealth:number): void
+    OnRep_CurrentHealth(OldVHealth: number) : void
     {
-        console.log(`[TS_PlayerCharacter::OnRep_currentHealth]: ${this.CurrentHealth} (old: ${OldVHealth})`);
+        console.log(`[TS_PlayerCharacter::OnRep_CurrentHealth]: ${this.CurrentHealth} (old: ${OldVHealth})`);
         if (this.HealthBar)
         {
             this.HealthBar.OnHealthChanged(this.CurrentHealth);
+            console.log(`[TS_PlayerCharacter::OnRep_CurrentHealth]: 调用HealthBar组件`);
+        }
+        else
+        {
+            console.log(`[TS_PlayerCharacter::OnRep_CurrentHealth]: 没有找到HealthBar组件`);
         }
     }
 
@@ -111,6 +116,7 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
             {
                 console.log(`[TS_PlayerCharacter::CheckEnemyInRange] 攻击敌人: ${Enemy.NetDriverName}`);
                 Enemy.ApplyDamage(10);
+                Enemy.OnRep_CurrentHealth(Enemy.CurrentHealth);
             }
         }
     }

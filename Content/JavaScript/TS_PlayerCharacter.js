@@ -11,7 +11,9 @@ const UE = require("ue");
 const TS_HealthBarComponent_1 = require("./TS_HealthBarComponent");
 // 血量变更委托
 class TS_PlayerCharacter extends UE.PvpCharacter {
-    // 可同步属性，并且使用回调函数（注意：ReplicatedUsing 名称必须与回调函数名严格匹配）
+    // TODO: Ts的注解不太好用
+    // https://github.com/Tencent/puerts/discussions/1855  查询了此QA，但没有找到解决方案
+    // 暂时使用RPC处理
     CurrentHealth;
     MaxHealth;
     IsAttacking;
@@ -24,10 +26,14 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
         // 查找组件
         this.HealthBar = this.GetComponentByClass(TS_HealthBarComponent_1.default.StaticClass());
     }
-    OnRep_currentHealth(OldVHealth) {
-        console.log(`[TS_PlayerCharacter::OnRep_currentHealth]: ${this.CurrentHealth} (old: ${OldVHealth})`);
+    OnRep_CurrentHealth(OldVHealth) {
+        console.log(`[TS_PlayerCharacter::OnRep_CurrentHealth]: ${this.CurrentHealth} (old: ${OldVHealth})`);
         if (this.HealthBar) {
             this.HealthBar.OnHealthChanged(this.CurrentHealth);
+            console.log(`[TS_PlayerCharacter::OnRep_CurrentHealth]: 调用HealthBar组件`);
+        }
+        else {
+            console.log(`[TS_PlayerCharacter::OnRep_CurrentHealth]: 没有找到HealthBar组件`);
         }
     }
     // 服务器RPC函数转发来的
@@ -72,6 +78,7 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
             if (Enemy) {
                 console.log(`[TS_PlayerCharacter::CheckEnemyInRange] 攻击敌人: ${Enemy.NetDriverName}`);
                 Enemy.ApplyDamage(10);
+                Enemy.OnRep_CurrentHealth(Enemy.CurrentHealth);
             }
         }
     }
@@ -138,7 +145,7 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
     }
 }
 __decorate([
-    ue_1.uproperty.uproperty(ue_1.uproperty.Replicated, ue_1.uproperty.ReplicatedUsing = "OnRep_currentHealth")
+    ue_1.uproperty.uproperty(ue_1.uproperty.Replicated)
 ], TS_PlayerCharacter.prototype, "CurrentHealth", void 0);
 __decorate([
     ue_1.uproperty.uproperty(ue_1.uproperty.Replicated)
@@ -146,9 +153,6 @@ __decorate([
 __decorate([
     ue_1.uproperty.uproperty(ue_1.uproperty.Replicated, ue_1.uproperty.BlueprintReadOnly)
 ], TS_PlayerCharacter.prototype, "IsAttacking", void 0);
-__decorate([
-    ue_1.ufunction.ufunction()
-], TS_PlayerCharacter.prototype, "OnRep_currentHealth", null);
 __decorate([
     ue_1.ufunction.ufunction(ue_1.ufunction.Server, ue_1.ufunction.Reliable)
 ], TS_PlayerCharacter.prototype, "CheckEnemyInRange", null);
