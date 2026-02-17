@@ -40,5 +40,23 @@ TArray<FHitResult> UPvpBlueprintFunctionLibrary::CheckEnemyInRange(APvpCharacter
 	QueryParams.AddIgnoredActor(PvpCharacter);
 
 	World->SweepMultiByObjectType(OutHits, TraceStart, TraceEnd, FQuat::Identity, ObjectParams, CollisionShape, QueryParams);
+	// 去除重复的Actor
+	TArray<FHitResult> UniqueHits;
+	TSet<AActor*> SeenActors;
+
+	for (const FHitResult& Hit : OutHits)
+	{
+		AActor* HitActor = Hit.GetActor();
+		if (HitActor && !SeenActors.Contains(HitActor))
+		{
+			SeenActors.Add(HitActor);
+			UniqueHits.Add(Hit);
+		}
+	}
+
+	OutHits = MoveTemp(UniqueHits);
+	
+	
+	UE_LOG(LogTemp, Warning, TEXT("[UPvpBlueprintFunctionLibrary::CheckEnemyInRange]: OutHits.Num() = %d"), OutHits.Num());
 	return OutHits;
 }

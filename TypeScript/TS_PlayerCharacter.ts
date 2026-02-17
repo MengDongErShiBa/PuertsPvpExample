@@ -1,18 +1,26 @@
-import * as UE from "ue";
 import {
-    ENetRole,
-    HitResult,
+    $MulticastDelegate,
+    Actor,
+    DamageEvent, DamageType,
+    ENetRole, Game,
+    HitResult, NewObject,
     PvpBlueprintFunctionLibrary,
     SkeletalMeshComponent,
     TArray,
     ufunction,
     uproperty
 } from "ue";
+import * as UE from "ue";
+import TS_HealthBarComponent from "./TS_HealthBarComponent";
 
+// 血量变更委托
 class TS_PlayerCharacter extends UE.PvpCharacter {
     // 可同步属性，并且使用回调函数（注意：ReplicatedUsing 名称必须与回调函数名严格匹配）
     @uproperty.uproperty(uproperty.Replicated, uproperty.ReplicatedUsing = "OnRep_currentHealth")
     private CurrentHealth: number;
+    
+    @uproperty.uproperty(uproperty.Replicated)
+    private MaxHealth: number;
 
     @uproperty.uproperty(uproperty.Replicated, uproperty.BlueprintReadOnly)
     private IsAttacking: boolean;
@@ -21,11 +29,25 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
     private AttackInterval: number;
 
     private AttackRange: number;
-
+    
+    private HealthBar: TS_HealthBarComponent;
+    
+    ReceiveBeginPlay():void
+    {
+        super.ReceiveBeginPlay();
+        
+        // 查找组件
+        this.HealthBar = this.GetComponentByClass(TS_HealthBarComponent.StaticClass()) as TS_HealthBarComponent;
+    }
+    
     @ufunction.ufunction()
     private OnRep_currentHealth(OldVHealth:number): void
     {
         console.log(`[TS_PlayerCharacter::OnRep_currentHealth]: ${this.CurrentHealth} (old: ${OldVHealth})`);
+        if (this.HealthBar)
+        {
+            this.HealthBar.OnHealthChanged(this.CurrentHealth);
+        }
     }
 
     // 服务器RPC函数转发来的
@@ -79,6 +101,18 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
         }
 
         // TODO: 处理攻击逻辑  由固定的组件完成
+        for (let hitResultElement of HitResult) 
+        {
+            const HitActor = hitResultElement.GetActor();
+            
+            // 先不严谨的处理一下吧
+            const Enemy = HitActor as TS_PlayerCharacter;
+            if (Enemy)
+            {
+                console.log(`[TS_PlayerCharacter::CheckEnemyInRange] 攻击敌人: ${Enemy.NetDriverName}`);
+                Enemy.ApplyDamage(10);
+            }
+        }
     }
 
     /**
@@ -136,7 +170,36 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
         // 同步蒙太奇
         this.MulticastPlayMontage();
     }
-
+    
+    /**
+     * 应用伤害
+     * @param Damage 
+     * @param DamageEvent 
+     * @param DamageCauser 
+     */
+    @ufunction.ufunction()
+    ApplyDamage(Damage: number):void
+    {
+        if (!this.HasAuthority())
+        {
+            console.log(`[TS_PlayerCharacter::ApplyDamage] 没有权限`);
+            return;
+        }
+        
+        console.log(`[TS_PlayerCharacter::ApplyDamage] 应用伤害: ${Damage}`);
+        this.CurrentHealth = Math.max(1, this.CurrentHealth - Damage);
+        console.log(`[TS_PlayerCharacter::ApplyDamage] ${this.NetDriverName}当前生命: ${this.CurrentHealth}`);
+    }
+    
+    public GetCurrentHealth(): number
+    {
+        return this.CurrentHealth;
+    }
+    
+    public GetMaxHealth(): number
+    {
+        return this.MaxHealth;
+    }
 }
 
 export default TS_PlayerCharacter;

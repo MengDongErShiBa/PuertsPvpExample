@@ -6,17 +6,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const UE = require("ue");
 const ue_1 = require("ue");
+const UE = require("ue");
+const TS_HealthBarComponent_1 = require("./TS_HealthBarComponent");
+// 血量变更委托
 class TS_PlayerCharacter extends UE.PvpCharacter {
     // 可同步属性，并且使用回调函数（注意：ReplicatedUsing 名称必须与回调函数名严格匹配）
     CurrentHealth;
+    MaxHealth;
     IsAttacking;
     // 攻击间隔 单位秒
     AttackInterval;
     AttackRange;
+    HealthBar;
+    ReceiveBeginPlay() {
+        super.ReceiveBeginPlay();
+        // 查找组件
+        this.HealthBar = this.GetComponentByClass(TS_HealthBarComponent_1.default.StaticClass());
+    }
     OnRep_currentHealth(OldVHealth) {
         console.log(`[TS_PlayerCharacter::OnRep_currentHealth]: ${this.CurrentHealth} (old: ${OldVHealth})`);
+        if (this.HealthBar) {
+            this.HealthBar.OnHealthChanged(this.CurrentHealth);
+        }
     }
     // 服务器RPC函数转发来的
     TsProcessComboAttack() {
@@ -53,6 +65,15 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
             console.log(`[TS_PlayerCharacter::CheckEnemyInRange] 发现敌人: ${HitResult.Num()}`);
         }
         // TODO: 处理攻击逻辑  由固定的组件完成
+        for (let hitResultElement of HitResult) {
+            const HitActor = hitResultElement.GetActor();
+            // 先不严谨的处理一下吧
+            const Enemy = HitActor;
+            if (Enemy) {
+                console.log(`[TS_PlayerCharacter::CheckEnemyInRange] 攻击敌人: ${Enemy.NetDriverName}`);
+                Enemy.ApplyDamage(10);
+            }
+        }
     }
     /**
      * 播放Montage - NetMulticast版本，所有客户端执行
@@ -94,10 +115,34 @@ class TS_PlayerCharacter extends UE.PvpCharacter {
         // 同步蒙太奇
         this.MulticastPlayMontage();
     }
+    /**
+     * 应用伤害
+     * @param Damage
+     * @param DamageEvent
+     * @param DamageCauser
+     */
+    ApplyDamage(Damage) {
+        if (!this.HasAuthority()) {
+            console.log(`[TS_PlayerCharacter::ApplyDamage] 没有权限`);
+            return;
+        }
+        console.log(`[TS_PlayerCharacter::ApplyDamage] 应用伤害: ${Damage}`);
+        this.CurrentHealth = Math.max(1, this.CurrentHealth - Damage);
+        console.log(`[TS_PlayerCharacter::ApplyDamage] ${this.NetDriverName}当前生命: ${this.CurrentHealth}`);
+    }
+    GetCurrentHealth() {
+        return this.CurrentHealth;
+    }
+    GetMaxHealth() {
+        return this.MaxHealth;
+    }
 }
 __decorate([
     ue_1.uproperty.uproperty(ue_1.uproperty.Replicated, ue_1.uproperty.ReplicatedUsing = "OnRep_currentHealth")
 ], TS_PlayerCharacter.prototype, "CurrentHealth", void 0);
+__decorate([
+    ue_1.uproperty.uproperty(ue_1.uproperty.Replicated)
+], TS_PlayerCharacter.prototype, "MaxHealth", void 0);
 __decorate([
     ue_1.uproperty.uproperty(ue_1.uproperty.Replicated, ue_1.uproperty.BlueprintReadOnly)
 ], TS_PlayerCharacter.prototype, "IsAttacking", void 0);
@@ -113,5 +158,8 @@ __decorate([
 __decorate([
     ue_1.ufunction.ufunction()
 ], TS_PlayerCharacter.prototype, "PlayMontage", null);
+__decorate([
+    ue_1.ufunction.ufunction()
+], TS_PlayerCharacter.prototype, "ApplyDamage", null);
 exports.default = TS_PlayerCharacter;
 //# sourceMappingURL=TS_PlayerCharacter.js.map

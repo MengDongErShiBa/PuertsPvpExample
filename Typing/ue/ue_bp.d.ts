@@ -17881,74 +17881,40 @@ declare module "ue" {
     }
 
 // __TYPE_DECL_END
-// __TYPE_DECL_START: e42ca987ecfe25bab98b6292abb74dfd9494f73e
-    namespace Game.Blueprints.TypeScript.TS_Player {
-        class TS_Player_C extends UE.Character {
+// __TYPE_DECL_START: f3639be90867e82af88e57a1c7e345c99d468186
+    namespace Game.Blueprints.TypeScript.TS_CombatGameMode {
+        class TS_CombatGameMode_C extends UE.GameMode {
+            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
+            DefaultSceneRoot: UE.SceneComponent;
+            static StaticClass(): Class;
+            static Find(OrigInName: string, Outer?: Object): TS_CombatGameMode_C;
+            static Load(InName: string): TS_CombatGameMode_C;
+        
+            __tid_TS_CombatGameMode_C_0__: boolean;
+        }
+        
+    }
+
+// __TYPE_DECL_END
+// __TYPE_DECL_START: fe068a861f49e7c54bbba50bd52e93ac411fea9a
+    namespace Game.Blueprints.TypeScript.TS_PlayerCharacter {
+        class TS_PlayerCharacter_C extends UE.PvpCharacter {
             constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
             UberGraphFrame: UE.PointerToUberGraphFrame;
-            Camera: UE.CameraComponent;
-            SpringArm: UE.SpringArmComponent;
-            StaticMesh: UE.StaticMesh;
-            ExecuteUbergraph_TS_Player(EntryPoint: number) : void;
+            CurrentHealth: number;
+            IsAttacking: boolean;
+            AttackInterval: number;
+            AttackRange: number;
+            ApplyDamage(Damage: number, DamageEvent: UE.DamageEvent, DamageCauser: $Nullable<UE.Actor>) : void;
+            CheckEnemyInRange() : void;
+            ExecuteUbergraph_TS_PlayerCharacter(EntryPoint: number) : void;
+            MulticastPlayMontage() : void;
+            OnRep_CurrentHealth(OldVHealth: number) : void;
+            PlayMontage() : void;
             /*
              *Event when play begins for this actor.
              */
             ReceiveBeginPlay() : void;
-            Test() : void;
-            static StaticClass(): Class;
-            static Find(OrigInName: string, Outer?: Object): TS_Player_C;
-            static Load(InName: string): TS_Player_C;
-        
-            __tid_TS_Player_C_0__: boolean;
-        }
-        
-    }
-
-// __TYPE_DECL_END
-// __TYPE_DECL_START: fb5fea55efa3f24e12c99d76caed85279bb554da
-    namespace Game.Blueprints.TypeScript.TsActor {
-        class TsActor_C extends UE.Actor {
-            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
-            DefaultSceneRoot: UE.SceneComponent;
-            StaticMesh: UE.StaticMesh;
-            TestMesh: UE.StaticMesh;
-            Test() : void;
-            static StaticClass(): Class;
-            static Find(OrigInName: string, Outer?: Object): TsActor_C;
-            static Load(InName: string): TsActor_C;
-        
-            __tid_TsActor_C_0__: boolean;
-        }
-        
-    }
-
-// __TYPE_DECL_END
-// __TYPE_DECL_START: 8e5b81e9be7c74a3a806ac9b080cdad1416dd00e
-    namespace Game.Blueprints.TypeScript.Lobby.TS_LobbyGameMode {
-        class TS_LobbyGameMode_C extends UE.GameMode {
-            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
-            DefaultSceneRoot: UE.SceneComponent;
-            static StaticClass(): Class;
-            static Find(OrigInName: string, Outer?: Object): TS_LobbyGameMode_C;
-            static Load(InName: string): TS_LobbyGameMode_C;
-        
-            __tid_TS_LobbyGameMode_C_0__: boolean;
-        }
-        
-    }
-
-// __TYPE_DECL_END
-// __TYPE_DECL_START: 779a3db0568791c81c69d97a5d6271d07a7b7a93
-    namespace Game.Blueprints.TypeScript.Combat.TS_PlayerCharacter {
-        class TS_PlayerCharacter_C extends UE.PvpCharacter {
-            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
-            UberGraphFrame: UE.PointerToUberGraphFrame;
-            currentHealth: number;
-            IsAttacking: boolean;
-            attackInterval: number;
-            CheckEnemyInRange() : void;
-            ExecuteUbergraph_TS_PlayerCharacter(EntryPoint: number) : void;
-            OnRep_currentHealth(OldVHealth: number) : void;
             TsProcessComboAttack() : void;
             static StaticClass(): Class;
             static Find(OrigInName: string, Outer?: Object): TS_PlayerCharacter_C;
@@ -17960,8 +17926,8 @@ declare module "ue" {
     }
 
 // __TYPE_DECL_END
-// __TYPE_DECL_START: 49e29bb7427a726bcd5814602526f46ffb512f2b
-    namespace Game.Blueprints.TypeScript.Combat.TS_PlayerController {
+// __TYPE_DECL_START: 322796d136770b86ae7db457388d8d7621c39ed6
+    namespace Game.Blueprints.TypeScript.TS_PlayerController {
         class TS_PlayerController_C extends UE.PuertsPvpExamplePlayerController {
             constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
             static StaticClass(): Class;
@@ -17969,6 +17935,60 @@ declare module "ue" {
             static Load(InName: string): TS_PlayerController_C;
         
             __tid_TS_PlayerController_C_0__: boolean;
+        }
+        
+    }
+
+// __TYPE_DECL_END
+// __TYPE_DECL_START: 1f53c8495543514d73dbe972354527b7c64b8898
+    namespace Game.Blueprints.TypeScript.TS_HealthBarComponent {
+        class TS_HealthBarComponent_C extends UE.WidgetComponent {
+            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
+            OwnerCharacter: UE.Game.Blueprints.TypeScript.TS_PlayerCharacter.TS_PlayerCharacter_C;
+            OnHealthChanged(CurrentHealth: number) : void;
+            static StaticClass(): Class;
+            static Find(OrigInName: string, Outer?: Object): TS_HealthBarComponent_C;
+            static Load(InName: string): TS_HealthBarComponent_C;
+        
+            __tid_TS_HealthBarComponent_C_0__: boolean;
+        }
+        
+    }
+
+// __TYPE_DECL_END
+// __TYPE_DECL_START: 6c863a575ee6d615651a74ee58f9fe2428e148f6
+    namespace Game.Blueprints.TypeScript.TS_CombatComponent {
+        class TS_CombatComponent_C extends UE.ActorComponent {
+            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
+            UberGraphFrame: UE.PointerToUberGraphFrame;
+            OwnerCharacter: UE.Game.Blueprints.TypeScript.TS_PlayerCharacter.TS_PlayerCharacter_C;
+            ExecuteUbergraph_TS_CombatComponent(EntryPoint: number) : void;
+            OnTakeAnyDamage(Damage: number, DamageEvent: UE.DamageEvent, DamageCauser: $Nullable<UE.Actor>) : void;
+            /*
+             *Blueprint implementable event for when the component is beginning play, called before its owning actor's BeginPlay
+             *or when the component is dynamically created if the Actor has already BegunPlay.
+             */
+            ReceiveBeginPlay() : void;
+            static StaticClass(): Class;
+            static Find(OrigInName: string, Outer?: Object): TS_CombatComponent_C;
+            static Load(InName: string): TS_CombatComponent_C;
+        
+            __tid_TS_CombatComponent_C_0__: boolean;
+        }
+        
+    }
+
+// __TYPE_DECL_END
+// __TYPE_DECL_START: e87349f037a0f420b7f7c3e946199d0c2861d836
+    namespace Game.Blueprints.TypeScript.TS_HealthBar {
+        class TS_HealthBar_C extends UE.UserWidget {
+            constructor(Outer?: Object, Name?: string, ObjectFlags?: number);
+            SetHealth(Health: number, MaxHealth: number) : void;
+            static StaticClass(): Class;
+            static Find(OrigInName: string, Outer?: Object): TS_HealthBar_C;
+            static Load(InName: string): TS_HealthBar_C;
+        
+            __tid_TS_HealthBar_C_0__: boolean;
         }
         
     }

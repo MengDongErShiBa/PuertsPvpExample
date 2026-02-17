@@ -4,8 +4,13 @@
         "processed": true,
         "isBP": true
     },
+    "F:/WorkSpace/PuertsPvpExample/TypeScript/TS_HealthBarComponent.ts": {
+        "version": "c3e568b76f1c5707f758bba7a0c4fe22",
+        "processed": true,
+        "isBP": true
+    },
     "F:/WorkSpace/PuertsPvpExample/TypeScript/TS_PlayerCharacter.ts": {
-        "version": "14805005d103d916998ef9fd9d02601a",
+        "version": "dc05c112d2eda411b4546295e977e0c2",
         "processed": true,
         "isBP": true
     },
@@ -35,7 +40,7 @@
         "processed": false
     },
     "F:/WorkSpace/PuertsPvpExample/Typing/ue/ue.d.ts": {
-        "version": "7419b8af87ef3c4b8d07c212c8c5aa0f",
+        "version": "3a76e800037da6c6d9ad07a485851003",
         "processed": false
     },
     "F:/WorkSpace/PuertsPvpExample/Typing/ue/puerts_decorators.d.ts": {
@@ -43,7 +48,7 @@
         "processed": false
     },
     "F:/WorkSpace/PuertsPvpExample/Typing/ue/ue_bp.d.ts": {
-        "version": "fdbef2e3df21500467925dbc74e9dfe9",
+        "version": "dad6cd4c94c384df88aeb87cd9ba2ee3",
         "processed": false
     },
     "F:/WorkSpace/PuertsPvpExample/Content/JavaScript/PuertsEditor/node_modules/typescript/lib/lib.esnext.full.d.ts": {
