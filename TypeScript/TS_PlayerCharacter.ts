@@ -12,7 +12,8 @@ import {
 import TS_HealthBarComponent from "./TS_HealthBarComponent";
 
 // 血量变更委托
-class TS_PlayerCharacter extends UE.PvpCharacter {
+class TS_PlayerCharacter extends UE.PvpCharacter 
+{
     
     // TODO: Ts的注解不太好用
     // https://github.com/Tencent/puerts/discussions/1855  查询了此QA，但没有找到解决方案

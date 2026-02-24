@@ -241,6 +241,12 @@ public:
             JsEnv->RebindJs();
             UE_LOG(PuertsModule, Log, TEXT("Normal Mode started!"));
         }
+
+        if (JsEnv)
+        {
+            // 测试启动代码
+            JsEnv->Start("HelloWorld/QuickStart");
+        }
     }
 
     virtual const TArray<FString>& GetIgnoreClassListOnDTS()
@@ -476,6 +482,7 @@ void FPuertsModule::Disable()
     JsEnvGroup.Reset();
     GUObjectArray.RemoveUObjectCreateListener(static_cast<FUObjectArray::FUObjectCreateListener*>(this));
     GUObjectArray.RemoveUObjectDeleteListener(static_cast<FUObjectArray::FUObjectDeleteListener*>(this));
+    
 }
 
 #if WITH_EDITOR

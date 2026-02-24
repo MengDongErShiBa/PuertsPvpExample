@@ -1,0 +1,1 @@
+{"version":3,"file":"TS_Player.js","sourceRoot":"","sources":["../../../TypeScript/HelloWorld/TS_Player.ts"],"names":[],"mappings":";;AAAA,yBAAyB;AAEzB,MAAM,SAAU,SAAQ,EAAE,CAAC,SAAS;IAEhC,UAAU,CAAwB;IAElC,gBAAgB;QAEZ,OAAO,CAAC,GAAG,CAAC,OAAO,CAAC,CAAC;IACzB,CAAC;IAED,WAAW,CAAC,SAAiB;QAEzB,OAAO,CAAC,GAAG,CAAC,OAAO,CAAC,CAAC;IACzB,CAAC;CACJ;AAED,kBAAe,SAAS,CAAC"}
